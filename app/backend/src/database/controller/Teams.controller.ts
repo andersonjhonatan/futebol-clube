@@ -13,7 +13,7 @@ const getAllTeamController = async (req: Request, res: Response): Promise<Respon
 
 const getByIdController = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const result = await getByItemId(+id);
     return res.status(200).json(result);
   } catch (error) {

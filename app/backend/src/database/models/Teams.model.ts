@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 
-
 import db from '.';
 // import OtherModel from './OtherModel';
 
@@ -9,29 +8,32 @@ class Teams extends Model {
   declare teamName: string;
 }
 
-Teams.init({
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+Teams.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    teamName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'team_name',
+    },
   },
-  teamName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: 'team_name'
-  }
-}, {
-  sequelize: db,
-  modelName: 'teams',
-  timestamps: false,
-  underscored: true
-});
+  {
+    sequelize: db,
+    modelName: 'teams',
+    timestamps: false,
+    underscored: true,
+  },
+);
 
 /**
-  * `Workaround` para aplicar as associations em TS:
-  * Associations 1:N devem ficar em uma das instâncias de modelo
-  * */
+ * `Workaround` para aplicar as associations em TS:
+ * Associations 1:N devem ficar em uma das instâncias de modelo
+ * */
 
 // OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
