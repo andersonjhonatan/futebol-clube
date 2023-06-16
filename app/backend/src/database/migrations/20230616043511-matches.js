@@ -1,51 +1,49 @@
 'use strict';
-import { Model, QueryInterface, DataTypes } from 'sequelize';
-import Matches from '../../Interfaces/Matches';
 
-export default {
-  up(queryInterface: QueryInterface) {
-    return queryInterface.createTable<Model<Matches>>('matches', {
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('matches', {
       id: {
-        type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER,
       },
       homeTeamId: {
-        type: DataTypes.INTEGER,
-        references: { model: 'teams', key: 'id' },
         allowNull: false,
+        references: { model: 'teams', key: 'id' },
+        type: Sequelize.INTEGER,
         field: 'home_team_id',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       homeTeamGoals: {
-        type: DataTypes.INTEGER,
         allowNull: false,
+        type: Sequelize.INTEGER,
         field: 'home_team_goals',
       },
       awayTeamId: {
-        type: DataTypes.INTEGER,
-        references: { model: 'teams', key: 'id' },
         allowNull: false,
+        references: { model: 'teams', key: 'id' },
+        type: Sequelize.INTEGER,
         field: 'away_team_id',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       awayTeamGoals: {
-        type: DataTypes.INTEGER,
         allowNull: false,
+        type: Sequelize.INTEGER,
         field: 'away_team_goals',
       },
       inProgress: {
-        type: DataTypes.BOOLEAN,
         allowNull: false,
+        type: Sequelize.BOOLEAN,
         field: 'in_progress',
-      },
-    });
+      }
+    })
   },
 
-  down(queryInterface: QueryInterface) {
-    return queryInterface.dropTable('matches');
-  },
+  down: async (queryInterface) => {
+    await queryInterface.dropTable('matches');
+  }
 };

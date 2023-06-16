@@ -1,25 +1,25 @@
 import { Request, Response } from 'express';
-import { getAllTeams, getByItemId } from '../service/Teams.service';
+import IServiceTeam from '../../Interfaces/ITeamsService';
 
-const getAllTeamController = async (req: Request, res: Response): Promise<Response> => {
-  try {
-    const result = await getAllTeams();
-    return res.status(200).json(result);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+class TeamsControllers {
+  private _service: IServiceTeam;
+
+  constructor(serviceTeams: IServiceTeam) {
+    this._service = serviceTeams;
   }
-};
 
-const getByIdController = async (req: Request, res: Response): Promise<Response> => {
-  try {
+  public getTeamAll = async (req: Request, res: Response) => {
+    const resultAll = await this._service.getAllTeams();
+    res.status(200).json(resultAll);
+  };
+
+  public getByTeam = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await getByItemId(+id);
-    return res.status(200).json(result);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal Server Error' });
-  }
-};
 
-export { getAllTeamController, getByIdController };
+    const result = await this._service.getByItemId(+id);
+
+    res.status(200).json(result);
+  };
+}
+
+export default TeamsControllers;

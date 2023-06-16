@@ -15,7 +15,22 @@ const { expect } = chai;
 describe('Testes de cobertura mínima para os arquivos em /app/backend/src', () => {
   beforeEach(() => {});
 
-  it('Deve cobrir no mínimo 5% dos arquivos em /app/backend/src', async () => {
+  it('Se busca o time pelo o id ', async () => {
+    let chaiHttpResponse: Response;
+
+    const teamStub = {
+      id: 1,
+      teamName: "Avaí/Kindermann"
+    } as Teams
+
+    sinon.stub(Teams, 'findByPk').resolves(teamStub);
+
+    chaiHttpResponse = await chai.request(app).get('/teams/:id');
+
+    expect(chaiHttpResponse.status).to.equal(200);
+  });
+
+  it('Se busca todos os times do db ', async () => {
     let chaiHttpResponse: Response;
 
     const teamStub: Teams[] = [
