@@ -19,6 +19,14 @@ class MatchController {
 
     return res.status(200).json(result);
   };
+
+  getPatchId = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const result = await this._matchService.updateFinish(+id);
+
+    return res.status(200).json({ message: result.message });
+  };
 }
 
 export default MatchController;
