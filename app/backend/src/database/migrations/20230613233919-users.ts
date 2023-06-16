@@ -2,7 +2,7 @@
 import { DataTypes, Model, QueryInterface } from 'sequelize';
 import Users from '../../Interfaces/User';
 
-module.exports = {
+export default {
   async up(queryInterface: QueryInterface) {
     return queryInterface.createTable<Model<Users>>('users', {
       id: {
