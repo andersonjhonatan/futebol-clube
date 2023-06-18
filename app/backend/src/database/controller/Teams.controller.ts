@@ -8,7 +8,7 @@ class TeamsControllers {
     this._service = serviceTeams;
   }
 
-  public getTeamAll = async (req: Request, res: Response) => {
+  public getTeamAll = async (_req: Request, res: Response) => {
     const resultAll = await this._service.getAllTeams();
     res.status(200).json(resultAll);
   };

@@ -23,9 +23,17 @@ class MatchController {
   getPatchId = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const result = await this._matchService.updateFinish(+id);
+    const { message } = await this._matchService.updateFinish(+id);
 
-    return res.status(200).json({ message: result.message });
+    return res.status(200).json({ message });
+  };
+
+  patchIdUpdate = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const { message } = await this._matchService.updateID(req.body, +id);
+
+    return res.status(200).json({ message });
   };
 }
 

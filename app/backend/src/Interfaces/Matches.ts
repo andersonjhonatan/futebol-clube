@@ -1,5 +1,5 @@
 export default interface Matches {
-  id: number,
+  id?: number,
   homeTeamId: number,
   homeTeamGoals: number,
   awayTeamId: number,
