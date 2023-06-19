@@ -35,7 +35,7 @@ class MatchesService {
 
   async updateID(goals: IPatchIDGoals, id: number): Promise<IPatch> {
     await this.model.update(goals, { where: { id } });
-    return { message: 'updated goals' };
+    return { message: 'Atualizando os gols' };
   }
 
   async createMatches(newMatch: ICreateMatch): Promise<IPatch> {

@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Testes de cobertura mínima para os arquivos em /app/backend/src', () => {
-  beforeEach(() => {});
+  beforeEach(sinon.restore)
 
   it('Se busca o time pelo o id ', async () => {
     let chaiHttpResponse: Response;
