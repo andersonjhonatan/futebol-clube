@@ -35,6 +35,15 @@ class MatchController {
 
     return res.status(200).json({ message });
   };
+
+  createdMatch = async (req: Request, res: Response): Promise<Response> => {
+    const { type, message, matcheCreated } = await this._matchService.createMatches(
+      req.body,
+    );
+
+    if (type) return res.status(type).json({ message });
+    return res.status(201).json(matcheCreated);
+  };
 }
 
 export default MatchController;

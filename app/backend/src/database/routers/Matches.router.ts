@@ -10,5 +10,6 @@ const newController = new MatchController();
 matchRouter.get('/matches', newController.getAllMatchers);
 matchRouter.patch('/matches/:id/finish', tokenVerify, newController.getPatchId);
 matchRouter.patch('/matches/:id', tokenVerify, newController.patchIdUpdate);
+matchRouter.post('/matches', tokenVerify, newController.createdMatch);
 
 export default matchRouter;

@@ -3,6 +3,7 @@ import MatchesModel from '../models/MatchesModel';
 import Teams from '../models/Teams.model';
 import IPatch from '../../Interfaces/IPatch';
 import IPatchIDGoals from '../../Interfaces/IPatchIDGoals';
+import ICreateMatch from '../../Interfaces/ICreateMatch';
 
 class MatchesService {
   protected model: ModelStatic<MatchesModel> = MatchesModel;
@@ -35,6 +36,32 @@ class MatchesService {
   async updateID(goals: IPatchIDGoals, id: number): Promise<IPatch> {
     await this.model.update(goals, { where: { id } });
     return { message: 'updated goals' };
+  }
+
+  async createMatches(newMatch: ICreateMatch): Promise<IPatch> {
+    const { awayTeamId, homeTeamId } = newMatch;
+
+    const idHomeTeamIdSearch = await this.modelTeam.findByPk(homeTeamId);
+
+    if (!idHomeTeamIdSearch) {
+      return { type: 404, message: 'There is no team with such id!' };
+    }
+
+    const awayTeamIdSeach = await this.modelTeam.findByPk(awayTeamId);
+
+    if (!awayTeamIdSeach) {
+      return { type: 404, message: 'There is no team with such id!' };
+    }
+
+    if (awayTeamId === homeTeamId) {
+      return {
+        type: 422,
+        message: 'It is not possible to create a match with two equal teams',
+      };
+    }
+
+    const creatAsMatches = await this.model.create({ ...newMatch, inProgress: true });
+    return { matcheCreated: creatAsMatches };
   }
 }
 
