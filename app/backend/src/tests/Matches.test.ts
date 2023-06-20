@@ -1,14 +1,14 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import * as jwt from 'jsonwebtoken';
-// @ts-ignore
+import { sign } from 'jsonwebtoken';
+//@ts-ignore
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 
 import { Model } from 'sequelize';
 
-const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_SECRET = process.env.JWT_SECRET || 'jwt_secret';
 chai.use(chaiHttp);
 
 import { listMock, user, listMockAllTeams1, listMockAllTeams2 } from './mock/mock';
@@ -50,7 +50,7 @@ describe('Teste da aplicação: PATCH', () => {
   beforeEach(sinon.restore);
 
   it('Finalizar a partida', async () => {
-    const tokenResult =jwt.sign(user, JWT_SECRET);
+    const tokenResult = sign(user, JWT_SECRET);
 
     sinon.stub(Model, 'update').resolves([1]);
     const result = await request(app)
@@ -66,12 +66,12 @@ describe('Teste da aplicação: PATCH ', () => {
   beforeEach(sinon.restore);
 
   it('Atualizar os gols com o endpoint patch', async () => {
-    const tokenResult = jwt.sign(user, JWT_SECRET);
+    const tokenResult = sign(user, JWT_SECRET);
 
     sinon.stub(Model, 'update').resolves([1]);
     const result = await request(app)
       .patch('/matches/1')
-      .set('Authorization', tokenResult);
+      .set('authorization', tokenResult);
 
     expect(result.status).to.be.equal(200);
     expect(result.body).to.deep.equal({ message: 'Atualizando os gols' });
@@ -90,7 +90,7 @@ describe('Teste da aplicação: POST /matches', () => {
       .resolves(listMockAllTeams1[0]);
     sinon.stub(Model, 'create').resolves(listMock[1]);
 
-    const tokenResult = jwt.sign(user, JWT_SECRET);
+    const tokenResult = sign(user, JWT_SECRET);
     const result = await request(app)
       .post('/matches')
       .send({ homeTeamId: 16, awayTeamId: 16 })
@@ -111,7 +111,7 @@ describe('Teste da aplicação: POST /matches', () => {
       .resolves(null);
     sinon.stub(Model, 'create').resolves(listMock[1]);
 
-    const tokenResult = jwt.sign(user, JWT_SECRET);
+    const tokenResult = sign(user, JWT_SECRET);
     const result = await request(app)
       .post('/matches')
       .send({ homeTeamId: 16, awayTeamId: 99 })
@@ -131,7 +131,7 @@ describe('Teste da aplicação: POST /matches', () => {
       .resolves(listMockAllTeams1[0]);
     sinon.stub(Model, 'create').resolves(listMock[1]);
 
-    const tokenResult = jwt.sign(user, JWT_SECRET);
+    const tokenResult = sign(user, JWT_SECRET);
     const result = await request(app)
       .post('/matches')
       .send({ homeTeamId: 99, awayTeamId: 16 })
@@ -152,7 +152,7 @@ describe('Teste da aplicação: POST /matches', () => {
       .resolves(listMockAllTeams1[1]);
     sinon.stub(Model, 'create').resolves(listMock[1]);
 
-    const tokenResult = jwt.sign(user, JWT_SECRET);
+    const tokenResult = sign(user, JWT_SECRET);
     const result = await request(app)
       .post('/matches')
       .send({ homeTeamId: 16, awayTeamId: 8 })

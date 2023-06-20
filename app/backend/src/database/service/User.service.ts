@@ -9,8 +9,9 @@ class UserServiceClass {
   loginService = async (email: string, password: string) => {
     const resultUser = await this.model.findOne({ where: { email } });
 
-    if (!resultUser) return { type: 401, message: 'Invalid email or password' };
-
+    if (!resultUser) {
+      return { type: 401, message: 'Invalid email or password' };
+    }
     const validPassword = compareSync(password, resultUser.password);
 
     if (validPassword) {
@@ -24,7 +25,7 @@ class UserServiceClass {
       };
     }
 
-    return { type: 401, message: 'Invalid email or password' };
+    return { message: 'Invalid email or password', token: null };
   };
 }
 

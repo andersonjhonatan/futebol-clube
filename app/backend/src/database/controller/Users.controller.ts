@@ -11,9 +11,11 @@ class UserControllerClass {
   public loginController = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
-    const { type, message, token } = await this._service.loginService(email, password);
+    const { message, token } = await this._service.loginService(email, password);
 
-    if (type) return res.status(type).json({ message });
+    if (!token) {
+      return res.status(401).json({ message });
+    }
 
     return res.status(200).json({ token });
   };
